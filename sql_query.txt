@@ -1,0 +1,103 @@
+--1. Check if all 100k rows arrived
+SELECT COUNT(*) FROM luxury_sales_cleaned;
+
+SELECT property_id, micro_market, price_per_sqft, quarter_number 
+FROM luxury_sales_cleaned 
+LIMIT 5;
+
+--2. Group by Transaction Type--
+SELECT transaction_type, COUNT(*) as total_bookings
+FROM luxury_sales_cleaned
+GROUP BY transaction_type;
+
+--3. Average Ticket Price per Developer--
+SELECT developer_name, round(avg(ticket_price_cr)::numeric,2) as avg_ticket_price_cr, count(*) as project_count
+from luxury_sales_cleaned
+GROUP BY developer_name
+ORDER BY  avg_ticket_price_cr DESC
+LIMIT 10;
+
+--Top 5 Builders by Total Revenue--
+SELECT developer_name, SUM(ticket_price_cr) AS total_revenue
+FROM luxury_sales_cleaned
+GROUP BY developer_name
+ORDER BY total_revenue DESC
+LIMIT 5;
+
+--The Luxury Leader (Highest Average Price)--
+SELECT developer_name, AVG(ticket_price_cr) AS avg_ticket_price
+FROM luxury_sales_cleaned
+GROUP BY developer_name
+ORDER BY avg_ticket_price DESC
+LIMIT 1;
+
+-- Project Concentration by Location--
+SELECT micro_market, COUNT(DISTINCT project_name) AS project_count
+FROM luxury_sales_cleaned
+GROUP BY micro_market
+ORDER BY project_count DESC;
+
+--Amenity (Average Score)--
+SELECT booking_flag, AVG(amenity_score) AS avg_amenity_score
+FROM luxury_sales_cleaned
+GROUP BY booking_flag;
+
+--1.Quarterly Bookings by Micro-Market--
+SELECT purchase_quarter, micro_market, COUNT(*) AS booking_count
+FROM luxury_sales_cleaned
+WHERE booking_flag = 1
+GROUP BY purchase_quarter, micro_market
+ORDER BY purchase_quarter ASC, booking_count DESC;
+
+--2.Builder Performance--
+SELECT developer_name, 
+       SUM(ticket_price_cr) AS total_revenue, 
+       AVG(ticket_price_cr) AS avg_ticket_size
+FROM luxury_sales_cleaned
+GROUP BY developer_name
+ORDER BY total_revenue DESC;
+
+--4.Amenity Impact (Correlation Data)--
+SELECT project_name, AVG(amenity_score) AS avg_amenity,COUNT(*) AS project_count
+FROM luxury_sales_cleaned
+GROUP BY project_name
+ORDER BY avg_amenity DESC;
+
+--5.Configuration Demand (BHK Analysis)--
+SELECT configuration, COUNT(*) AS booking_count
+FROM luxury_sales_cleaned
+WHERE booking_flag= 1
+GROUP BY configuration
+ORDER BY booking_count DESC;
+
+--6.Sales Channel--
+SELECT sales_channel, booking_flag, COUNT(*) AS status_count
+FROM luxury_sales_cleaned
+GROUP BY sales_channel, booking_flag
+ORDER BY  status_count DESC;
+
+--7.Quarterly Builder Contribution--
+SELECT developer_name, purchase_quarter, SUM(ticket_price_cr) AS quarterly_revenue
+FROM luxury_sales_cleaned
+GROUP BY developer_name, purchase_quarter
+ORDER BY purchase_quarter, quarterly_revenue DESC;
+
+--8.Possession Status vs. Buyer Type--
+SELECT possession_status, buyer_type, COUNT(*) AS decision_count
+FROM luxury_sales_cleaned
+GROUP BY possession_status, buyer_type
+ORDER BY possession_status;
+
+--9.Geographical Insights (Concentration)--
+SELECT micro_market, COUNT(DISTINCT project_name) AS project_concentration
+FROM luxury_sales_cleaned
+GROUP BY micro_market
+ORDER BY project_concentration DESC;
+
+--10. Top Performers (Revenue & Success)--
+SELECT developer_name,SUM(ticket_price_cr) AS total_revenue, COUNT(*) AS successful_bookings
+FROM luxury_sales_cleaned
+WHERE booking_flag = 1
+GROUP BY developer_name
+ORDER BY total_revenue DESC
+LIMIT 5;
