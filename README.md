@@ -2,8 +2,15 @@
  Project Overview:
 This Power BI project provides a comprehensive analysis of developer performance and revenue distribution. The report answers 10 key business questions to help stakeholders understand which developers are driving value and where the project stands financially.
 
- Key Insights:
-Total Revenue: The project has generated a total revenue of [Insert Your Total Revenue Number] Cr, as calculated from the Ticket_Price_Cr field.
+Source: Downloaded raw CSV from GitHub.
+Preprocessing: Data cleaning and formatting performed in VS Code (Python).
+Database: Loaded cleaned data into PostgreSQL for storage and  querying.
+Visualization: Connected Power BI to PostgreSQL for real-time reporting.
+Interactivity: Implemented Slicers (Quarter, Micro-market, Developer).
+Logic: Applied Edit Interactions to the "Total Revenue" card to ensure a constant global benchmark regardless of Developer filters.
+
+Key Insights:
+Total Revenue: The project has generated a total revenue of 313.57k Cr, as calculated from the Ticket_Price_Cr field.
 Developer Impact: While most developers contribute to the core tasks, specific developers (like L and T) focus on non-revenue generating segments, which is why their revenue charts may show zero while other performance metrics remain high.
 Cross-Functional Filters: The report uses Slicers to allow users to toggle between different Developers and observe real-time changes across all 10 question charts.
 Revenue Benchmark: The Total Revenue visual is set as a static benchmark, ensuring the "Big Picture" is always visible regardless of individual developer filters.
